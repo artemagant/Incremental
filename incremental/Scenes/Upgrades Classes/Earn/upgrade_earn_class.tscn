@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://c5g5hfs2byfy6"]
+
+[ext_resource type="Script" uid="uid://cfxma7xw6ajrh" path="res://Scenes/Upgrades Classes/Earn/upgrade_earn_class.gd" id="1_vu17s"]
+
+[node name="Button_Class" type="Button" unique_id=1702155469]
+script = ExtResource("1_vu17s")

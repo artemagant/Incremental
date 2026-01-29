@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://bd757llxkldo0"]
+
+[ext_resource type="Script" uid="uid://d4n32f1itqr7s" path="res://Scenes/Upgrades Classes/Crit/upgrade_crit_class.gd" id="1_ahgj4"]
+
+[node name="UpgradeCritClass" type="Button" unique_id=731876263]
+script = ExtResource("1_ahgj4")
