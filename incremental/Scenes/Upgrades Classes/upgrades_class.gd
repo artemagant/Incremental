@@ -6,3 +6,4 @@ class_name Upgrades_Class
 @export var cost_mult: float = 0
 @export var number: = 0
 var level := 0
+@export var defoult_cost = 0

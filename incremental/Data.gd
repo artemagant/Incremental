@@ -2,11 +2,13 @@ extends Node
 
 var game_data := {
 	"balance": 0,
-	"Upgrade_earn_1": 0,
-	"Upgrade_earn_2": 0,
-	"Upgrade_earn_3": 0,
-	"Upgrade_earn_4": 0,
-	"Upgrade_earn_5": 0,
+	"Earn_1": 0,
+	"Earn_2": 0,
+	"Earn_3": 0,
+	"Earn_4": 0,
+	"Earn_5": 0,
+	
+	"xCrit_1": 0,
 }
 
 var duplicate_game_data := game_data.duplicate(true)
