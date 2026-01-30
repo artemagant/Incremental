@@ -1,5 +1,5 @@
 extends Upgrades_Class
-class_name Upgrade_Speed_Class
+class_name Upgrade_Crit_Mult_Class
 
-@export var crit_chanse: float = 0
-@export var crit_mult: float = 0
+@export var crit_mult_plus: float = 0
+var button_label: = "xCrit"
