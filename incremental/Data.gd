@@ -2,6 +2,7 @@ extends Node
 
 var game_data := {
 	"balance": 0,
+	
 	"Earn_1": 0,
 	"Earn_2": 0,
 	"Earn_3": 0,
@@ -9,6 +10,8 @@ var game_data := {
 	"Earn_5": 0,
 	
 	"xCrit_1": 0,
+	"xCrit_2": 0,
+	"xCrit_3": 0,
 }
 
 var duplicate_game_data := game_data.duplicate(true)
