@@ -1,15 +1,17 @@
 extends Node2D
+class_name Main
 
 # TODO: Lock on upgrades, that costs too much
-# TODO: new type of buttons: %Crit
 
 func print_game_data(): # Printing important data
 	print(JSON.stringify(Data.game_data, "\t"), crit_mult)
 func cheats(toggled: bool): # Increase earn for debugging 
 	if toggled:
 		starting_earn_per_second += 100000000000000000.0
+		print(starting_earn_per_second)
 	else:
 		starting_earn_per_second -= 100000000000000000.0
+	update_data()
 	update_counters()
 
 var money_redactions := ["K", "M", "B", "T", "Qa", "Qi", "Sx", "Sp", "Oc", "No", "De", "Un", "Du", "Td", "qd", "Qd", "sd", "Sd", "Od", "Nd", "Vg", "Uv", "Dv", "Tv", "qv", "Qv", "sv", "Sv", "Ov", "Nv", "Tg", "Ut", "Dt", "Tt", "qt", "Qt", "st", "St", "Ot", "Nt", "Qt"]
@@ -17,7 +19,9 @@ var money_redactions := ["K", "M", "B", "T", "Qa", "Qi", "Sx", "Sp", "Oc", "No",
 var earn_per_second: float
 var starting_earn_per_second: = 1.0
 var balance: = 0.0
-var crit_chance: = 0.2
+var earn_mult: = 1.0
+var starting_crit_chance: = 0.1
+var crit_chance: float
 var starting_crit_mult: = 1.1
 var crit_mult: float
 
@@ -34,15 +38,18 @@ func reset() -> void: # Reset game by button
 	$VBoxContainer/Cheats.button_pressed = false
 	crit_chance = 0.1
 	balance = 0
+	starting_earn_per_second = 1.0
+	starting_crit_mult = 1.1
+	earn_mult = 1.0
 	for child in $Wrap.get_children():
 		for upgrade in child.get_children():
 			upgrade.reset()
 			upgrade.text = "%s %s: %s" %[upgrade.button_label, upgrade.number, money_format(upgrade.cost)]
-	update_earn_per_second()
-	update_crit_mult()
+	update_data()
 	update_counters()
 	timer_between_earning.start()
 func _ready() -> void:
+	#Data.reset_data()
 	print_game_data()
 	Data.load_data()
 	balance = Data.game_data.balance
@@ -57,9 +64,11 @@ func auto_saving() -> void: # Avtosaving
 
 var setup_earn: = false
 var setup_crit: = false
+var setup_crit_chance: = false
 func _setup() -> void: # Setup
 	setup_earn = setup_upgrades($Wrap/Upgrades_Earn, buy_upgrade, setup_earn)
 	setup_crit = setup_upgrades($Wrap/Upgrades_Crit, buy_upgrade, setup_crit)
+	setup_crit_chance = setup_upgrades($Wrap/Upgrades_Crit_Chance, buy_upgrade, setup_crit_chance)
 func setup_upgrades(wrapper: Node, function: Callable, setuped: bool): # Setup upgrades
 	if setuped:
 		for upgrade in wrapper.get_children():
@@ -74,7 +83,7 @@ func load_upgrade(upgrade: Upgrades_Class) -> void: # Load upgrade from data
 	# Go through every levels and apply the effect of buying 
 	var key: = upgrade.get_key(upgrade)
 	for level in Data.game_data[key]:
-		upgrade.apply_buy()
+		upgrade.apply_buy(self)
 		upgrade.level += 1
 		upgrade.cost *= upgrade.cost_mult
 		upgrade.level_count_slider.value += 1
@@ -82,8 +91,7 @@ func load_upgrade(upgrade: Upgrades_Class) -> void: # Load upgrade from data
 		max_level(upgrade)
 	else: 
 		upgrade.text = "%s %s: %s" %[upgrade.button_label, upgrade.number, money_format(upgrade.cost)]
-	update_earn_per_second()
-	update_crit_mult()
+	update_data()
 	update_counters()
 
 func highlight_effect(target: Label, to_color: Color, start_color: Color) -> void: # Apply crit effect
@@ -92,12 +100,13 @@ func highlight_effect(target: Label, to_color: Color, start_color: Color) -> voi
 	target.modulate = start_color
 func is_crit(chance: float) -> bool: # Check for crit
 	return chance >= randf()
+
 @onready var upgrades_earn: = $Wrap/Upgrades_Earn
 func update_earn_per_second() -> void:
 	var total_earn: = 0
 	for upgrade in upgrades_earn.get_children():
 		total_earn += upgrade.total_earn
-	earn_per_second = total_earn + starting_earn_per_second
+	earn_per_second = (total_earn + starting_earn_per_second) * earn_mult
 	update_counters()
 @onready var upgrades_crit_mult: = $Wrap/Upgrades_Crit
 func update_crit_mult() -> void:
@@ -106,11 +115,21 @@ func update_crit_mult() -> void:
 		total_mult += upgrade.total_crit_mult_plus
 	crit_mult = total_mult + starting_crit_mult
 	update_counters()
-func add_money() -> void: # Add money to balance
-	update_earn_per_second()
+@onready var upgrades_crit_chance: = $Wrap/Upgrades_Crit_Chance
+func update_crit_chance() -> void:
+	var total_chance: = 0.0
+	for upgrade in upgrades_crit_chance.get_children():
+		total_chance += upgrade.total_chance_plus
+	crit_chance = total_chance + starting_crit_chance
+
+func update_data() -> void:
+	update_crit_chance()
 	update_crit_mult()
+	update_earn_per_second()
+
+func add_money() -> void: # Add money to balance
 	if is_crit(crit_chance): # Check for crit
-		balance += earn_per_second * crit_mult
+		balance += earn_per_second * crit_mult 
 		highlight_effect(crit_chance_label, Color(1.0, 0.0, 0.255, 1.0), Color(1.0, 1.0, 1.0, 1.0))
 	else:
 		balance += earn_per_second
@@ -124,7 +143,7 @@ func update_counters() -> void: # Update stats labels
 func money_format(money: float) -> String: # Convert int into metric system number (1000 - 1K, ETS)
 	var min_money := 1000 # Minimum amount of converted int
 	if money < min_money: # Check if can convert
-		return "%.2f" %money if money < 10 else "%.0f" %money
+		return "%.1f" %money if money >= 10 else "%.2f" %money
 	var index := -1 # Index starts from -1, because first itaration adding 1
 	while money >= min_money: # Convert 
 		index += 1
@@ -132,7 +151,7 @@ func money_format(money: float) -> String: # Convert int into metric system numb
 		
 	# Return
 	var new_money = snapped(money, 0.01)
-	return "%.2f%s" %[new_money, money_redactions[index]]
+	return "%.1f%s" %[new_money, money_redactions[index]]
 
 
 func upgrades_cost(upgrade: Upgrades_Class) -> void: # Minus money from balance, then buying an upgrade
@@ -152,13 +171,13 @@ func max_level(upgrade: Upgrades_Class):
 	if not upgrade.is_max_level:
 		upgrade.new_max_level(self)
 	upgrade.is_max_level = true
+	update_data()
 func buy_upgrade(upgrade: Upgrades_Class) -> void: # Function to buy upgrades
 	if balance >= upgrade.cost and upgrade.level < upgrade.max_level: # Check if can buy
-		upgrade.apply_buy()
+		upgrade.apply_buy(self)
 		upgrades_cost(upgrade)
 	else:
 		upgrade.text = "%s %s: %s" %[upgrade.button_label, upgrade.number, money_format(upgrade.cost)]
 	if upgrade.level >= upgrade.max_level: # Check if max level
 		max_level(upgrade)
-	update_earn_per_second()
-	update_crit_mult()
+	update_data()

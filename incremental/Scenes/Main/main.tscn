@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://obquawutrjnb" path="res://Scenes/Main/main.gd" id="1_1r6ip"]
 [ext_resource type="PackedScene" uid="uid://c5g5hfs2byfy6" path="res://Scenes/Upgrades Classes/Earn/upgrade_earn_class.tscn" id="2_lixft"]
 [ext_resource type="Script" uid="uid://d4n32f1itqr7s" path="res://Scenes/Upgrades Classes/Crit/upgrade_crit_class.gd" id="3_qw60k"]
+[ext_resource type="PackedScene" uid="uid://cicgswq2apopp" path="res://Scenes/Upgrades Classes/Crit Chance/upgrade_crit_chance_class.tscn" id="4_5yls4"]
 
 [sub_resource type="CanvasTexture" id="CanvasTexture_qw60k"]
 
@@ -254,7 +255,7 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 50
 text = "xCrit_n: 999"
 script = ExtResource("3_qw60k")
-crit_mult_plus = 0.05
+crit_mult_plus = 0.07
 max_level = 8
 cost = 5000.0
 cost_mult = 2.5
@@ -286,7 +287,7 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 50
 text = "xCrit_n: 999"
 script = ExtResource("3_qw60k")
-crit_mult_plus = 0.05
+crit_mult_plus = 0.1
 max_level = 10
 cost = 15000.0
 cost_mult = 2.5
@@ -309,6 +310,73 @@ theme_override_icons/grabber = SubResource("CanvasTexture_qw60k")
 theme_override_icons/grabber_highlight = SubResource("CanvasTexture_5yls4")
 theme_override_icons/grabber_disabled = SubResource("CanvasTexture_p6jpk")
 max_value = 10.0
+editable = false
+scrollable = false
+ticks_position = 3
+
+[node name="Upgrades_Crit_Chance" type="VBoxContainer" parent="Wrap" unique_id=73283268]
+offset_left = 477.0
+offset_top = 403.0
+offset_right = 913.0
+offset_bottom = 480.0
+theme_override_constants/separation = 15
+
+[node name="UpgradeCritClass" parent="Wrap/Upgrades_Crit_Chance" unique_id=731876263 node_paths=PackedStringArray("level_count_slider") instance=ExtResource("4_5yls4")]
+layout_mode = 2
+theme_override_font_sizes/font_size = 50
+text = "%Crit_n: 999"
+chance_plus = 0.007
+max_level = 5
+cost = 20000.0
+cost_mult = 3.0
+number = 1
+level_count_slider = NodePath("Level_Count")
+
+[node name="Level_Count" type="HSlider" parent="Wrap/Upgrades_Crit_Chance/UpgradeCritClass" unique_id=1465989322]
+modulate = Color(1, 0.7647059, 0, 0.60784316)
+top_level = true
+layout_mode = 0
+offset_left = 480.0
+offset_top = 469.0
+offset_right = 922.9741
+offset_bottom = 477.0
+scale = Vector2(0.98, 1.441)
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_icons/grabber = SubResource("CanvasTexture_qw60k")
+theme_override_icons/grabber_highlight = SubResource("CanvasTexture_5yls4")
+theme_override_icons/grabber_disabled = SubResource("CanvasTexture_p6jpk")
+max_value = 5.0
+editable = false
+scrollable = false
+ticks_position = 3
+
+[node name="UpgradeCritClass2" parent="Wrap/Upgrades_Crit_Chance" unique_id=334210569 node_paths=PackedStringArray("level_count_slider") instance=ExtResource("4_5yls4")]
+layout_mode = 2
+theme_override_font_sizes/font_size = 50
+text = "%Crit_n: 999"
+chance_plus = 0.01
+max_level = 5
+cost = 100000.0
+cost_mult = 3.0
+number = 2
+level_count_slider = NodePath("Level_Count")
+
+[node name="Level_Count" type="HSlider" parent="Wrap/Upgrades_Crit_Chance/UpgradeCritClass2" unique_id=765708231]
+modulate = Color(1, 0.7647059, 0, 0.60784316)
+top_level = true
+layout_mode = 0
+offset_left = 480.0
+offset_top = 560.0
+offset_right = 922.9741
+offset_bottom = 568.0
+scale = Vector2(0.98, 1.441)
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_icons/grabber = SubResource("CanvasTexture_qw60k")
+theme_override_icons/grabber_highlight = SubResource("CanvasTexture_5yls4")
+theme_override_icons/grabber_disabled = SubResource("CanvasTexture_p6jpk")
+max_value = 5.0
 editable = false
 scrollable = false
 ticks_position = 3
