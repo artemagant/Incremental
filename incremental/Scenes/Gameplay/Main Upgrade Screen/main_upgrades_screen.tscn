@@ -1,9 +1,11 @@
 [gd_scene format=3 uid="uid://cbbn0wa3uhauv"]
 
-[ext_resource type="Script" uid="uid://obquawutrjnb" path="res://Scenes/Main/main.gd" id="1_1r6ip"]
-[ext_resource type="PackedScene" uid="uid://c5g5hfs2byfy6" path="res://Scenes/Upgrades Classes/Earn/upgrade_earn_class.tscn" id="2_lixft"]
-[ext_resource type="Script" uid="uid://d4n32f1itqr7s" path="res://Scenes/Upgrades Classes/Crit/upgrade_crit_class.gd" id="3_qw60k"]
-[ext_resource type="PackedScene" uid="uid://cicgswq2apopp" path="res://Scenes/Upgrades Classes/Crit Chance/upgrade_crit_chance_class.tscn" id="4_5yls4"]
+[ext_resource type="Script" uid="uid://obquawutrjnb" path="res://Scenes/Gameplay/Main Upgrade Screen/main_upgrades_screen.gd" id="1_qiblr"]
+[ext_resource type="PackedScene" uid="uid://c5g5hfs2byfy6" path="res://Scenes/Upgrades Classes/Earn/upgrade_earn_class.tscn" id="2_fgo2i"]
+[ext_resource type="Script" uid="uid://d4n32f1itqr7s" path="res://Scenes/Upgrades Classes/Crit/upgrade_crit_class.gd" id="3_q5fsn"]
+[ext_resource type="PackedScene" uid="uid://cicgswq2apopp" path="res://Scenes/Upgrades Classes/Crit Chance/upgrade_crit_chance_class.tscn" id="4_tg0j2"]
+[ext_resource type="AudioStream" uid="uid://i0vegtw5wynm" path="res://SFX/Buttons_1Part_Menu.wav" id="5_ekqlg"]
+[ext_resource type="AudioStream" uid="uid://beg6l825wfcyo" path="res://SFX/Buttons_2Part_Menu.wav.wav" id="6_o4eol"]
 
 [sub_resource type="CanvasTexture" id="CanvasTexture_qw60k"]
 
@@ -23,12 +25,16 @@ font_size = 40
 [sub_resource type="LabelSettings" id="LabelSettings_qw60k"]
 font_size = 40
 
-[node name="Main" type="Node2D" unique_id=1359911912 node_paths=PackedStringArray("money_counter_label", "earn_per_second_label", "crit_chance_label", "crit_mult_label", "timer_between_earning")]
-script = ExtResource("1_1r6ip")
+[node name="Main_Upgrades_Screen" type="Node2D" unique_id=1359911912 node_paths=PackedStringArray("money_counter_label", "earn_per_second_label", "crit_chance_label", "crit_mult_label", "earn_mult_label", "click_sound", "clack_sound", "earn_sound", "timer_between_earning")]
+script = ExtResource("1_qiblr")
 money_counter_label = NodePath("Center/Stats/Label_Money_Counter")
 earn_per_second_label = NodePath("Center/Stats/Label_Earn_Per_Second")
 crit_chance_label = NodePath("Center/Stats/Crit_Info_Chance")
 crit_mult_label = NodePath("Center/Stats/Crit_Info_Mult")
+earn_mult_label = NodePath("")
+click_sound = NodePath("SFX/Click")
+clack_sound = NodePath("SFX/Clack")
+earn_sound = NodePath("SFX/Earn")
 timer_between_earning = NodePath("Timer_Between_Earning")
 
 [node name="Timer_Between_Earning" type="Timer" parent="." unique_id=1892679348]
@@ -48,7 +54,7 @@ offset_bottom = 572.0
 theme_override_constants/separation = 15
 metadata/_edit_use_anchors_ = true
 
-[node name="Button_Upgrade_1" parent="Wrap/Upgrades_Earn" unique_id=1702155469 node_paths=PackedStringArray("level_count_slider") instance=ExtResource("2_lixft")]
+[node name="Button_Upgrade_1" parent="Wrap/Upgrades_Earn" unique_id=1702155469 node_paths=PackedStringArray("level_count_slider") instance=ExtResource("2_fgo2i")]
 texture_filter = 1
 layout_mode = 2
 size_flags_vertical = 3
@@ -75,12 +81,11 @@ size_flags_vertical = 4
 theme_override_icons/grabber = SubResource("CanvasTexture_qw60k")
 theme_override_icons/grabber_highlight = SubResource("CanvasTexture_5yls4")
 theme_override_icons/grabber_disabled = SubResource("CanvasTexture_p6jpk")
-max_value = 90.0
 editable = false
 scrollable = false
 ticks_position = 3
 
-[node name="Button_Upgrade_2" parent="Wrap/Upgrades_Earn" unique_id=502105022 node_paths=PackedStringArray("level_count_slider") instance=ExtResource("2_lixft")]
+[node name="Button_Upgrade_2" parent="Wrap/Upgrades_Earn" unique_id=502105022 node_paths=PackedStringArray("level_count_slider") instance=ExtResource("2_fgo2i")]
 texture_filter = 1
 layout_mode = 2
 size_flags_vertical = 3
@@ -107,12 +112,11 @@ size_flags_vertical = 4
 theme_override_icons/grabber = SubResource("CanvasTexture_qw60k")
 theme_override_icons/grabber_highlight = SubResource("CanvasTexture_5yls4")
 theme_override_icons/grabber_disabled = SubResource("CanvasTexture_p6jpk")
-max_value = 65.0
 editable = false
 scrollable = false
 ticks_position = 3
 
-[node name="Button_Upgrade_3" parent="Wrap/Upgrades_Earn" unique_id=1492891381 node_paths=PackedStringArray("level_count_slider") instance=ExtResource("2_lixft")]
+[node name="Button_Upgrade_3" parent="Wrap/Upgrades_Earn" unique_id=1492891381 node_paths=PackedStringArray("level_count_slider") instance=ExtResource("2_fgo2i")]
 texture_filter = 1
 layout_mode = 2
 size_flags_vertical = 3
@@ -139,12 +143,11 @@ size_flags_vertical = 4
 theme_override_icons/grabber = SubResource("CanvasTexture_qw60k")
 theme_override_icons/grabber_highlight = SubResource("CanvasTexture_5yls4")
 theme_override_icons/grabber_disabled = SubResource("CanvasTexture_p6jpk")
-max_value = 45.0
 editable = false
 scrollable = false
 ticks_position = 3
 
-[node name="Button_Upgrade_4" parent="Wrap/Upgrades_Earn" unique_id=976049518 node_paths=PackedStringArray("level_count_slider") instance=ExtResource("2_lixft")]
+[node name="Button_Upgrade_4" parent="Wrap/Upgrades_Earn" unique_id=976049518 node_paths=PackedStringArray("level_count_slider") instance=ExtResource("2_fgo2i")]
 texture_filter = 1
 layout_mode = 2
 size_flags_vertical = 3
@@ -153,7 +156,7 @@ text = "Upgrade_n: 999"
 earn = 350
 max_level = 20
 cost = 25000.0
-cost_mult = 1.1
+cost_mult = 1.3
 number = 4
 level_count_slider = NodePath("Level_Count")
 
@@ -171,22 +174,21 @@ size_flags_vertical = 4
 theme_override_icons/grabber = SubResource("CanvasTexture_qw60k")
 theme_override_icons/grabber_highlight = SubResource("CanvasTexture_5yls4")
 theme_override_icons/grabber_disabled = SubResource("CanvasTexture_p6jpk")
-max_value = 20.0
 editable = false
 scrollable = false
 tick_count = 1
 ticks_position = 3
 
-[node name="Button_Upgrade_5" parent="Wrap/Upgrades_Earn" unique_id=225392917 node_paths=PackedStringArray("level_count_slider") instance=ExtResource("2_lixft")]
+[node name="Button_Upgrade_5" parent="Wrap/Upgrades_Earn" unique_id=225392917 node_paths=PackedStringArray("level_count_slider") instance=ExtResource("2_fgo2i")]
 texture_filter = 1
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_font_sizes/font_size = 50
 text = "Upgrade_n: 999"
 earn = 1000
-max_level = 8
+max_level = 12
 cost = 100000.0
-cost_mult = 1.2
+cost_mult = 1.4
 number = 5
 level_count_slider = NodePath("Level_Count")
 
@@ -204,7 +206,6 @@ size_flags_vertical = 4
 theme_override_icons/grabber = SubResource("CanvasTexture_qw60k")
 theme_override_icons/grabber_highlight = SubResource("CanvasTexture_5yls4")
 theme_override_icons/grabber_disabled = SubResource("CanvasTexture_p6jpk")
-max_value = 8.0
 editable = false
 scrollable = false
 ticks_position = 3
@@ -222,7 +223,7 @@ metadata/_edit_use_anchors_ = true
 layout_mode = 2
 theme_override_font_sizes/font_size = 50
 text = "xCrit_n: 999"
-script = ExtResource("3_qw60k")
+script = ExtResource("3_q5fsn")
 crit_mult_plus = 0.05
 max_level = 10
 cost = 150.0
@@ -254,7 +255,7 @@ ticks_position = 3
 layout_mode = 2
 theme_override_font_sizes/font_size = 50
 text = "xCrit_n: 999"
-script = ExtResource("3_qw60k")
+script = ExtResource("3_q5fsn")
 crit_mult_plus = 0.07
 max_level = 8
 cost = 5000.0
@@ -286,9 +287,9 @@ ticks_position = 3
 layout_mode = 2
 theme_override_font_sizes/font_size = 50
 text = "xCrit_n: 999"
-script = ExtResource("3_qw60k")
+script = ExtResource("3_q5fsn")
 crit_mult_plus = 0.1
-max_level = 10
+max_level = 7
 cost = 15000.0
 cost_mult = 2.5
 number = 3
@@ -309,7 +310,7 @@ size_flags_vertical = 4
 theme_override_icons/grabber = SubResource("CanvasTexture_qw60k")
 theme_override_icons/grabber_highlight = SubResource("CanvasTexture_5yls4")
 theme_override_icons/grabber_disabled = SubResource("CanvasTexture_p6jpk")
-max_value = 10.0
+max_value = 7.0
 editable = false
 scrollable = false
 ticks_position = 3
@@ -321,14 +322,14 @@ offset_right = 913.0
 offset_bottom = 480.0
 theme_override_constants/separation = 15
 
-[node name="UpgradeCritClass" parent="Wrap/Upgrades_Crit_Chance" unique_id=731876263 node_paths=PackedStringArray("level_count_slider") instance=ExtResource("4_5yls4")]
+[node name="UpgradeCritClass" parent="Wrap/Upgrades_Crit_Chance" unique_id=731876263 node_paths=PackedStringArray("level_count_slider") instance=ExtResource("4_tg0j2")]
 layout_mode = 2
 theme_override_font_sizes/font_size = 50
 text = "%Crit_n: 999"
-chance_plus = 0.007
-max_level = 5
+chance_plus = 0.005
+max_level = 4
 cost = 20000.0
-cost_mult = 3.0
+cost_mult = 3.2
 number = 1
 level_count_slider = NodePath("Level_Count")
 
@@ -351,14 +352,14 @@ editable = false
 scrollable = false
 ticks_position = 3
 
-[node name="UpgradeCritClass2" parent="Wrap/Upgrades_Crit_Chance" unique_id=334210569 node_paths=PackedStringArray("level_count_slider") instance=ExtResource("4_5yls4")]
+[node name="UpgradeCritClass2" parent="Wrap/Upgrades_Crit_Chance" unique_id=334210569 node_paths=PackedStringArray("level_count_slider") instance=ExtResource("4_tg0j2")]
 layout_mode = 2
 theme_override_font_sizes/font_size = 50
 text = "%Crit_n: 999"
 chance_plus = 0.01
-max_level = 5
+max_level = 4
 cost = 100000.0
-cost_mult = 3.0
+cost_mult = 3.5
 number = 2
 level_count_slider = NodePath("Level_Count")
 
@@ -436,7 +437,33 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 50
 text = "Reset"
 
+[node name="SFX" type="Node" parent="." unique_id=719737443]
+
+[node name="Click" type="AudioStreamPlayer2D" parent="SFX" unique_id=1902236737]
+stream = ExtResource("5_ekqlg")
+bus = &"SFX"
+
+[node name="Clack" type="AudioStreamPlayer2D" parent="SFX" unique_id=703057933]
+stream = ExtResource("6_o4eol")
+bus = &"SFX"
+
+[node name="Earn" type="AudioStreamPlayer2D" parent="SFX" unique_id=1964124183]
+stream = ExtResource("6_o4eol")
+pitch_scale = 0.5
+bus = &"SFX_EARN"
+
+[node name="LineEdit" type="LineEdit" parent="." unique_id=24650309]
+modulate = Color(1, 1, 1, 0)
+offset_left = 1130.0
+offset_top = 446.00003
+offset_right = 1198.5
+offset_bottom = 480.00003
+scale = Vector2(0.3, 0.3)
+alignment = 1
+secret = true
+
 [connection signal="timeout" from="Timer_Between_Earning" to="." method="add_money"]
 [connection signal="timeout" from="Saving_Timer" to="." method="auto_saving"]
 [connection signal="toggled" from="VBoxContainer/Cheats" to="." method="cheats"]
 [connection signal="pressed" from="VBoxContainer/Reset_Button" to="." method="reset"]
+[connection signal="text_submitted" from="LineEdit" to="." method="cheats_password"]

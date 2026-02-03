@@ -15,6 +15,10 @@ run/main_scene="uid://cbbn0wa3uhauv"
 config/features=PackedStringArray("4.6", "Mobile")
 config/icon="res://icon.svg"
 
+[audio]
+
+buses/default_bus_layout="uid://clmb7p1bw186e"
+
 [autoload]
 
 Data="*uid://bdem66i8lj6f2"
@@ -36,3 +40,4 @@ window/stretch/mode="canvas_items"
 
 rendering_device/driver.windows="d3d12"
 renderer/rendering_method="mobile"
+textures/vram_compression/import_s3tc_bptc=true

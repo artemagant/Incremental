@@ -15,7 +15,11 @@ var game_data := {
 	
 	"%Crit_1": 0,
 	"%Crit_2": 0,
+	
+	"unlocked": unlocked
 }
+
+var unlocked := {}
 
 var duplicate_game_data := game_data.duplicate(true)
 

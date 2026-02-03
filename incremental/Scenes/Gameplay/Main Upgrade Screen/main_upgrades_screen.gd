@@ -1,20 +1,70 @@
 extends Node2D
 class_name Main
 
-# TODO: Lock on upgrades, that costs too much
+#!TODO: Lock on upgrades, that costs too much
+#!!TODO: Prestige system
+#?⁰TODO: Prestige upgrades
 
 func print_game_data(): # Printing important data
-	print(JSON.stringify(Data.game_data, "\t"), crit_mult)
+	print(JSON.stringify(Data.game_data, "\t", false, true), crit_chance)
+var password
+func cheats_password(pas: String):
+	password = pas
 func cheats(toggled: bool): # Increase earn for debugging 
+	if password != "llrrllrr":
+		return
 	if toggled:
-		starting_earn_per_second += 100000000000000000.0
-		print(starting_earn_per_second)
+		timer_between_earning.wait_time = 0.1
+		earn_mult += 50
 	else:
-		starting_earn_per_second -= 100000000000000000.0
+		timer_between_earning.wait_time = starting_time_between_earning
+		earn_mult -= 50
 	update_data()
 	update_counters()
 
-var money_redactions := ["K", "M", "B", "T", "Qa", "Qi", "Sx", "Sp", "Oc", "No", "De", "Un", "Du", "Td", "qd", "Qd", "sd", "Sd", "Od", "Nd", "Vg", "Uv", "Dv", "Tv", "qv", "Qv", "sv", "Sv", "Ov", "Nv", "Tg", "Ut", "Dt", "Tt", "qt", "Qt", "st", "St", "Ot", "Nt", "Qt"]
+var money_redactions := [
+	"K",
+	"M", 
+	"B", 
+	"T", 
+	"Qa", 
+	"Qi", 
+	"Sx", 
+	"Sp", 
+	"Oc", 
+	"No", 
+	"De", 
+	"Un", 
+	"Du",
+	"Td", 
+	"qd", 
+	"Qd", 
+	"sd", 
+	"Sd", 
+	"Od", 
+	"Nd", 
+	"Vg", 
+	"Uv", 
+	"Dv", 
+	"Tv", 
+	"qv", 
+	"Qv", 
+	"sv", 
+	"Sv", 
+	"Ov", 
+	"Nv", 
+	"Tg", 
+	"Ut", 
+	"Dt", 
+	"Tt", 
+	"qt", 
+	"Qt", 
+	"st", 
+	"St", 
+	"Ot", 
+	"Nt", 
+	"Qt",
+]
 
 var earn_per_second: float
 var starting_earn_per_second: = 1.0
@@ -24,12 +74,19 @@ var starting_crit_chance: = 0.1
 var crit_chance: float
 var starting_crit_mult: = 1.1
 var crit_mult: float
+var starting_time_between_earning: = 1.0
 
+@export_category("Labels")
 @export var money_counter_label: Label
 @export var earn_per_second_label: Label
 @export var crit_chance_label: Label
 @export var crit_mult_label: Label
-
+@export var earn_mult_label: Label
+@export_category("SFX")
+@export var click_sound: AudioStreamPlayer2D
+@export var clack_sound: AudioStreamPlayer2D
+@export var earn_sound: AudioStreamPlayer2D
+@export_category("Timer")
 @export var timer_between_earning: Timer
 
 func reset() -> void: # Reset game by button
@@ -37,6 +94,7 @@ func reset() -> void: # Reset game by button
 	Data.reset_data()
 	$VBoxContainer/Cheats.button_pressed = false
 	crit_chance = 0.1
+	starting_crit_chance = 0.1
 	balance = 0
 	starting_earn_per_second = 1.0
 	starting_crit_mult = 1.1
@@ -73,10 +131,21 @@ func setup_upgrades(wrapper: Node, function: Callable, setuped: bool): # Setup u
 	if setuped:
 		for upgrade in wrapper.get_children():
 			upgrade.pressed.disconnect(function)
+			upgrade.button_down.disconnect(button_sfx)
+			upgrade.button_up.disconnect(button_sfx)
+			upgrade.button_up.disconnect()
 	for upgrade in wrapper.get_children():
 		load_upgrade(upgrade)
 		upgrade.pressed.connect(function.bind(upgrade))
+		upgrade.button_down.connect(button_sfx.bind(click_sound))
+		upgrade.button_up.connect(button_sfx.bind(clack_sound))
+		upgrade.level_count_slider.max_value = upgrade.max_level
+		print("%s: %s" %[upgrade.name, upgrade.level_count_slider.max_value])
 	return true
+
+func button_sfx(SFX: AudioStreamPlayer2D, minimum := 0.90, maximum := 1.10):
+	SFX.pitch_scale = randf_range(minimum, maximum)
+	SFX.play()
 
 
 func load_upgrade(upgrade: Upgrades_Class) -> void: # Load upgrade from data
@@ -91,6 +160,7 @@ func load_upgrade(upgrade: Upgrades_Class) -> void: # Load upgrade from data
 		max_level(upgrade)
 	else: 
 		upgrade.text = "%s %s: %s" %[upgrade.button_label, upgrade.number, money_format(upgrade.cost)]
+	
 	update_data()
 	update_counters()
 
@@ -106,7 +176,7 @@ func update_earn_per_second() -> void:
 	var total_earn: = 0
 	for upgrade in upgrades_earn.get_children():
 		total_earn += upgrade.total_earn
-	earn_per_second = (total_earn + starting_earn_per_second) * earn_mult
+	earn_per_second = (total_earn + starting_earn_per_second)
 	update_counters()
 @onready var upgrades_crit_mult: = $Wrap/Upgrades_Crit
 func update_crit_mult() -> void:
@@ -129,17 +199,19 @@ func update_data() -> void:
 
 func add_money() -> void: # Add money to balance
 	if is_crit(crit_chance): # Check for crit
-		balance += earn_per_second * crit_mult 
+		balance += earn_per_second * crit_mult * earn_mult
 		highlight_effect(crit_chance_label, Color(1.0, 0.0, 0.255, 1.0), Color(1.0, 1.0, 1.0, 1.0))
 	else:
-		balance += earn_per_second
+		balance += earn_per_second * earn_mult
 	Data.game_data.balance = balance
+	button_sfx(earn_sound, 0.30, 0.65)
 	update_counters()
+
 func update_counters() -> void: # Update stats labels
 	money_counter_label.text = "Money: %s" %money_format(balance)
-	earn_per_second_label.text = "%s/sec" %money_format(earn_per_second)
-	crit_chance_label.text = "%.1f%s" %[crit_chance*100, "%"]
-	crit_mult_label.text = "x%.2f" %crit_mult
+	earn_per_second_label.text = "%s/sec(x%.2f)" %[money_format(earn_per_second), earn_mult]
+	crit_chance_label.text = "%s%s" %[money_format(crit_chance*100), '%']
+	crit_mult_label.text = "x%s" %money_format(crit_mult)
 func money_format(money: float) -> String: # Convert int into metric system number (1000 - 1K, ETS)
 	var min_money := 1000 # Minimum amount of converted int
 	if money < min_money: # Check if can convert
@@ -148,11 +220,14 @@ func money_format(money: float) -> String: # Convert int into metric system numb
 	while money >= min_money: # Convert 
 		index += 1
 		money /= 1000.0
-		
+	# Check if valid index
+	if index >= money_redactions.size():
+		return "inf"
 	# Return
 	var new_money = snapped(money, 0.01)
 	return "%.1f%s" %[new_money, money_redactions[index]]
-
+func delete_zero(num: float):
+	return str(num).rstrip("0").rstrip(".")
 
 func upgrades_cost(upgrade: Upgrades_Class) -> void: # Minus money from balance, then buying an upgrade
 	balance -= upgrade.cost # Minus
