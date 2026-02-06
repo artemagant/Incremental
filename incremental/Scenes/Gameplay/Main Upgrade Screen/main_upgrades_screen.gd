@@ -209,7 +209,12 @@ func check_for_unlock():
 		Data.game_data["total_balance"] = 0
 	for wrapper in $Wrap.get_children():
 		for upgrade in wrapper.get_children():
-			upgrade.lock_icon.visible = false if Data.game_data.total_balance>=upgrade.unlock_cost else true
+			if upgrade.unlock_cost <= Data.game_data.total_balance:
+				var tween = create_tween()
+				tween.parallel().tween_property(upgrade.lock_icon, "modulate:a", 0.0, 0.5)
+				await tween.finished
+				upgrade.lock_icon.visible = false
+				upgrade.lock_icon.modulate.a = 1.0
 
 func add_money() -> void: # Add money to balance
 	if not Data.game_data["total_balance"]:

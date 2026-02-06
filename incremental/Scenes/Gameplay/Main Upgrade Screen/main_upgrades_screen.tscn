@@ -2,8 +2,8 @@
 
 [ext_resource type="Script" uid="uid://obquawutrjnb" path="res://Scenes/Gameplay/Main Upgrade Screen/main_upgrades_screen.gd" id="1_qiblr"]
 [ext_resource type="PackedScene" uid="uid://c5g5hfs2byfy6" path="res://Scenes/Upgrades Classes/Earn/upgrade_earn_class.tscn" id="2_fgo2i"]
+[ext_resource type="Texture2D" uid="uid://b3w5fqpvlsw28" path="res://art/chain.png" id="3_j34tm"]
 [ext_resource type="Script" uid="uid://d4n32f1itqr7s" path="res://Scenes/Upgrades Classes/Crit/upgrade_crit_class.gd" id="3_q5fsn"]
-[ext_resource type="Texture2D" uid="uid://ovlww66doff2" path="res://icon.svg" id="3_ye4yg"]
 [ext_resource type="PackedScene" uid="uid://cicgswq2apopp" path="res://Scenes/Upgrades Classes/Crit Chance/upgrade_crit_chance_class.tscn" id="4_tg0j2"]
 [ext_resource type="AudioStream" uid="uid://i0vegtw5wynm" path="res://SFX/Buttons_1Part_Menu.wav" id="5_ekqlg"]
 [ext_resource type="AudioStream" uid="uid://beg6l825wfcyo" path="res://SFX/Buttons_2Part_Menu.wav.wav" id="6_o4eol"]
@@ -86,12 +86,19 @@ editable = false
 scrollable = false
 ticks_position = 3
 
-[node name="Lock" type="TextureRect" parent="Wrap/Upgrades_Earn/Button_Upgrade_1" unique_id=1849630000]
+[node name="Lock" type="TextureRect" parent="Wrap/Upgrades_Earn/Button_Upgrade_1" unique_id=2054184325]
+modulate = Color(0, 0, 0, 0.7411765)
 z_index = 1
+texture_filter = 1
 layout_mode = 0
-scale = Vector2(3.390625, 0.6015625)
+offset_left = -6.0
+offset_top = 0.6880069
+offset_right = 1054.0961
+offset_bottom = 256.68802
+scale = Vector2(0.416, 0.302)
 mouse_filter = 0
-texture = ExtResource("3_ye4yg")
+texture = ExtResource("3_j34tm")
+flip_h = true
 
 [node name="Button_Upgrade_2" parent="Wrap/Upgrades_Earn" unique_id=502105022 node_paths=PackedStringArray("level_count_slider", "lock_icon") instance=ExtResource("2_fgo2i")]
 texture_filter = 1
@@ -125,12 +132,18 @@ editable = false
 scrollable = false
 ticks_position = 3
 
-[node name="Lock" type="TextureRect" parent="Wrap/Upgrades_Earn/Button_Upgrade_2" unique_id=1839088486]
+[node name="Lock" type="TextureRect" parent="Wrap/Upgrades_Earn/Button_Upgrade_2" unique_id=136413080]
+modulate = Color(0, 0, 0, 0.7411765)
 z_index = 1
+texture_filter = 1
 layout_mode = 0
-scale = Vector2(3.390625, 0.6015625)
+offset_right = 1052.8845
+offset_bottom = 256.0
+scale = Vector2(0.416, 0.302)
 mouse_filter = 0
-texture = ExtResource("3_ye4yg")
+texture = ExtResource("3_j34tm")
+flip_h = true
+flip_v = true
 
 [node name="Button_Upgrade_3" parent="Wrap/Upgrades_Earn" unique_id=1492891381 node_paths=PackedStringArray("level_count_slider", "lock_icon") instance=ExtResource("2_fgo2i")]
 texture_filter = 1
@@ -164,12 +177,17 @@ editable = false
 scrollable = false
 ticks_position = 3
 
-[node name="Lock" type="TextureRect" parent="Wrap/Upgrades_Earn/Button_Upgrade_3" unique_id=1996387547]
+[node name="Lock" type="TextureRect" parent="Wrap/Upgrades_Earn/Button_Upgrade_3" unique_id=1907582257]
+modulate = Color(0, 0, 0, 0.7411765)
 z_index = 1
+texture_filter = 1
 layout_mode = 0
-scale = Vector2(3.390625, 0.6015625)
+offset_right = 1052.8845
+offset_bottom = 256.0
+scale = Vector2(0.416, 0.302)
 mouse_filter = 0
-texture = ExtResource("3_ye4yg")
+texture = ExtResource("3_j34tm")
+flip_v = true
 
 [node name="Button_Upgrade_4" parent="Wrap/Upgrades_Earn" unique_id=976049518 node_paths=PackedStringArray("level_count_slider", "lock_icon") instance=ExtResource("2_fgo2i")]
 texture_filter = 1
@@ -204,12 +222,15 @@ scrollable = false
 tick_count = 1
 ticks_position = 3
 
-[node name="Lock" type="TextureRect" parent="Wrap/Upgrades_Earn/Button_Upgrade_4" unique_id=1202354015]
+[node name="Lock" type="TextureRect" parent="Wrap/Upgrades_Earn/Button_Upgrade_4" unique_id=567603977]
+modulate = Color(0, 0, 0, 0.7411765)
 z_index = 1
 layout_mode = 0
-scale = Vector2(3.390625, 0.6015625)
+offset_right = 1052.8845
+offset_bottom = 256.0
+scale = Vector2(0.416, 0.302)
 mouse_filter = 0
-texture = ExtResource("3_ye4yg")
+texture = ExtResource("3_j34tm")
 
 [node name="Button_Upgrade_5" parent="Wrap/Upgrades_Earn" unique_id=225392917 node_paths=PackedStringArray("level_count_slider", "lock_icon") instance=ExtResource("2_fgo2i")]
 texture_filter = 1
@@ -243,12 +264,17 @@ editable = false
 scrollable = false
 ticks_position = 3
 
-[node name="Lock" type="TextureRect" parent="Wrap/Upgrades_Earn/Button_Upgrade_5" unique_id=1008711750]
+[node name="Lock" type="TextureRect" parent="Wrap/Upgrades_Earn/Button_Upgrade_5" unique_id=2089345376]
+modulate = Color(0, 0, 0, 0.7411765)
 z_index = 1
+texture_filter = 1
 layout_mode = 0
-scale = Vector2(3.390625, 0.6015625)
+offset_right = 1052.8845
+offset_bottom = 256.0
+scale = Vector2(0.416, 0.302)
 mouse_filter = 0
-texture = ExtResource("3_ye4yg")
+texture = ExtResource("3_j34tm")
+flip_h = true
 
 [node name="Upgrades_Crit" type="VBoxContainer" parent="Wrap" unique_id=1686305966]
 offset_left = 477.0
@@ -269,7 +295,7 @@ cost = 150.0
 cost_mult = 2.5
 number = 1
 level_count_slider = NodePath("Level_Count")
-lock_icon = NodePath("Lock1")
+lock_icon = NodePath("Lock")
 metadata/_custom_type_script = "uid://d4n32f1itqr7s"
 
 [node name="Level_Count" type="HSlider" parent="Wrap/Upgrades_Crit/Button_Crit_Upgrade_1" unique_id=1989134588]
@@ -291,12 +317,17 @@ editable = false
 scrollable = false
 ticks_position = 3
 
-[node name="Lock1" type="TextureRect" parent="Wrap/Upgrades_Crit/Button_Crit_Upgrade_1" unique_id=1488894974]
+[node name="Lock" type="TextureRect" parent="Wrap/Upgrades_Crit/Button_Crit_Upgrade_1" unique_id=1466757706]
+modulate = Color(0, 0, 0, 0.7411765)
 z_index = 1
+texture_filter = 1
 layout_mode = 0
-scale = Vector2(3.390625, 0.6015625)
+offset_right = 1052.8845
+offset_bottom = 256.0
+scale = Vector2(0.416, 0.302)
 mouse_filter = 0
-texture = ExtResource("3_ye4yg")
+texture = ExtResource("3_j34tm")
+flip_v = true
 
 [node name="Button_Crit_Upgrade_2" type="Button" parent="Wrap/Upgrades_Crit" unique_id=1614711276 node_paths=PackedStringArray("level_count_slider", "lock_icon")]
 layout_mode = 2
@@ -331,12 +362,18 @@ editable = false
 scrollable = false
 ticks_position = 3
 
-[node name="Lock" type="TextureRect" parent="Wrap/Upgrades_Crit/Button_Crit_Upgrade_2" unique_id=1099187539]
+[node name="Lock" type="TextureRect" parent="Wrap/Upgrades_Crit/Button_Crit_Upgrade_2" unique_id=19607696]
+modulate = Color(0, 0, 0, 0.7411765)
 z_index = 1
+texture_filter = 1
 layout_mode = 0
-scale = Vector2(3.390625, 0.6015625)
+offset_right = 1052.8845
+offset_bottom = 256.0
+scale = Vector2(0.416, 0.302)
 mouse_filter = 0
-texture = ExtResource("3_ye4yg")
+texture = ExtResource("3_j34tm")
+flip_h = true
+flip_v = true
 
 [node name="Button_Crit_Upgrade_3" type="Button" parent="Wrap/Upgrades_Crit" unique_id=224201033 node_paths=PackedStringArray("level_count_slider", "lock_icon")]
 layout_mode = 2
@@ -371,12 +408,16 @@ editable = false
 scrollable = false
 ticks_position = 3
 
-[node name="Lock" type="TextureRect" parent="Wrap/Upgrades_Crit/Button_Crit_Upgrade_3" unique_id=1265338141]
+[node name="Lock" type="TextureRect" parent="Wrap/Upgrades_Crit/Button_Crit_Upgrade_3" unique_id=1463984208]
+modulate = Color(0, 0, 0, 0.7411765)
 z_index = 1
+texture_filter = 1
 layout_mode = 0
-scale = Vector2(3.390625, 0.6015625)
+offset_right = 1052.8845
+offset_bottom = 256.0
+scale = Vector2(0.416, 0.302)
 mouse_filter = 0
-texture = ExtResource("3_ye4yg")
+texture = ExtResource("3_j34tm")
 
 [node name="Upgrades_Crit_Chance" type="VBoxContainer" parent="Wrap" unique_id=73283268]
 offset_left = 477.0
@@ -416,12 +457,17 @@ editable = false
 scrollable = false
 ticks_position = 3
 
-[node name="Lock" type="TextureRect" parent="Wrap/Upgrades_Crit_Chance/UpgradeCritClass" unique_id=2144596755]
+[node name="Lock" type="TextureRect" parent="Wrap/Upgrades_Crit_Chance/UpgradeCritClass" unique_id=1123065814]
+modulate = Color(0, 0, 0, 0.7411765)
 z_index = 1
+texture_filter = 1
 layout_mode = 0
-scale = Vector2(3.390625, 0.6015625)
+offset_right = 1052.8845
+offset_bottom = 256.0
+scale = Vector2(0.416, 0.302)
 mouse_filter = 0
-texture = ExtResource("3_ye4yg")
+texture = ExtResource("3_j34tm")
+flip_h = true
 
 [node name="UpgradeCritClass2" parent="Wrap/Upgrades_Crit_Chance" unique_id=334210569 node_paths=PackedStringArray("level_count_slider", "lock_icon") instance=ExtResource("4_tg0j2")]
 layout_mode = 2
@@ -454,12 +500,17 @@ editable = false
 scrollable = false
 ticks_position = 3
 
-[node name="Lock" type="TextureRect" parent="Wrap/Upgrades_Crit_Chance/UpgradeCritClass2" unique_id=1529426618]
+[node name="Lock" type="TextureRect" parent="Wrap/Upgrades_Crit_Chance/UpgradeCritClass2" unique_id=706307514]
+modulate = Color(0, 0, 0, 0.7411765)
 z_index = 1
+texture_filter = 1
 layout_mode = 0
-scale = Vector2(3.390625, 0.6015625)
+offset_right = 1052.8845
+offset_bottom = 256.0
+scale = Vector2(0.416, 0.302)
 mouse_filter = 0
-texture = ExtResource("3_ye4yg")
+texture = ExtResource("3_j34tm")
+flip_v = true
 
 [node name="Center" type="CenterContainer" parent="." unique_id=285881033]
 offset_left = 784.0
