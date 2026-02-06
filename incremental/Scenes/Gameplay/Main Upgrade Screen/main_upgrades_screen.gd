@@ -3,22 +3,24 @@ class_name Main
 
 #!TODO: Lock on upgrades, that costs too much
 #!!TODO: Prestige system
-#?⁰TODO: Prestige upgrades
+#?TODO: Prestige upgrades
 
 func print_game_data(): # Printing important data
+	if not Data.game_data:
+		Data.reset_data()
 	print(JSON.stringify(Data.game_data, "\t", false, true), crit_chance)
 var password
 func cheats_password(pas: String):
 	password = pas
 func cheats(toggled: bool): # Increase earn for debugging 
-	if password != "llrrllrr":
+	if password != null:
 		return
 	if toggled:
 		timer_between_earning.wait_time = 0.1
-		earn_mult += 50
+		#earn_mult += 50
 	else:
 		timer_between_earning.wait_time = starting_time_between_earning
-		earn_mult -= 50
+		#earn_mult -= 50
 	update_data()
 	update_counters()
 
@@ -104,12 +106,14 @@ func reset() -> void: # Reset game by button
 			upgrade.reset()
 			upgrade.text = "%s %s: %s" %[upgrade.button_label, upgrade.number, money_format(upgrade.cost)]
 	update_data()
-	update_counters()
+	check_for_unlock()
 	timer_between_earning.start()
 func _ready() -> void:
 	#Data.reset_data()
 	print_game_data()
 	Data.load_data()
+	if not Data.game_data["balance"]:
+		Data.game_data["balance"] = 0
 	balance = Data.game_data.balance
 	_setup()
 	update_counters()
@@ -127,6 +131,7 @@ func _setup() -> void: # Setup
 	setup_earn = setup_upgrades($Wrap/Upgrades_Earn, buy_upgrade, setup_earn)
 	setup_crit = setup_upgrades($Wrap/Upgrades_Crit, buy_upgrade, setup_crit)
 	setup_crit_chance = setup_upgrades($Wrap/Upgrades_Crit_Chance, buy_upgrade, setup_crit_chance)
+	check_for_unlock()
 func setup_upgrades(wrapper: Node, function: Callable, setuped: bool): # Setup upgrades
 	if setuped:
 		for upgrade in wrapper.get_children():
@@ -151,6 +156,8 @@ func button_sfx(SFX: AudioStreamPlayer2D, minimum := 0.90, maximum := 1.10):
 func load_upgrade(upgrade: Upgrades_Class) -> void: # Load upgrade from data
 	# Go through every levels and apply the effect of buying 
 	var key: = upgrade.get_key(upgrade)
+	if not Data.game_data[key]:
+		Data.game_data[key] = 0
 	for level in Data.game_data[key]:
 		upgrade.apply_buy(self)
 		upgrade.level += 1
@@ -197,12 +204,26 @@ func update_data() -> void:
 	update_crit_mult()
 	update_earn_per_second()
 
+func check_for_unlock():
+	if not Data.game_data["total_balance"]:
+		Data.game_data["total_balance"] = 0
+	for wrapper in $Wrap.get_children():
+		for upgrade in wrapper.get_children():
+			upgrade.lock_icon.visible = false if Data.game_data.total_balance>=upgrade.unlock_cost else true
+
 func add_money() -> void: # Add money to balance
+	if not Data.game_data["total_balance"]:
+		Data.game_data["total_balance"] = 0
 	if is_crit(crit_chance): # Check for crit
 		balance += earn_per_second * crit_mult * earn_mult
+		Data.game_data.total_balance += earn_per_second * earn_mult
 		highlight_effect(crit_chance_label, Color(1.0, 0.0, 0.255, 1.0), Color(1.0, 1.0, 1.0, 1.0))
 	else:
 		balance += earn_per_second * earn_mult
+		Data.game_data.total_balance += earn_per_second * earn_mult
+	check_for_unlock()
+	if not Data.game_data["balance"]:
+		Data.game_data["balance"] = 0
 	Data.game_data.balance = balance
 	button_sfx(earn_sound, 0.30, 0.65)
 	update_counters()
@@ -230,6 +251,8 @@ func delete_zero(num: float):
 	return str(num).rstrip("0").rstrip(".")
 
 func upgrades_cost(upgrade: Upgrades_Class) -> void: # Minus money from balance, then buying an upgrade
+	if not Data.game_data["balance"]:
+		Data.game_data["balance"] = 0
 	balance -= upgrade.cost # Minus
 	Data.game_data.balance = balance # Update data
 	upgrade.level += 1 # Add level to the upgrade
@@ -237,6 +260,8 @@ func upgrades_cost(upgrade: Upgrades_Class) -> void: # Minus money from balance,
 	upgrade.text = "%s %s: %s" %[upgrade.button_label, upgrade.number, money_format(upgrade.cost)] # Change text
 	upgrade.level_count_slider.value += 1
 	var key: = "%s_%s" %[upgrade.button_label, upgrade.number] # Get key
+	if not Data.game_data[key]:
+		Data.game_data[key] = 0
 	Data.game_data[key] = upgrade.level # Update data
 	update_counters() # Update Counters
 	Data.save_data()

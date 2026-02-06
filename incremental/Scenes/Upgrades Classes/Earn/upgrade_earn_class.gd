@@ -5,15 +5,19 @@ class_name Upgrade_Earn_Class
 var button_label: = "+Earn"
 var total_earn: = 0
 
+func _ready() -> void:
+	if number == 1:
+		unlock_cost = 0
+
 func apply_buy(main: Main):
 	total_earn += earn
-	main.highlight_effect(main.earn_per_second_label, Color(0.0, 1.0, 0.0, 1.0), Color(1.0, 1.0, 1.0, 1.0))
+	main.highlight_effect(main.earn_per_second_label, Data.GREEN, Data.WHITE)
 
 func new_max_level(main: Main):
 	main.starting_crit_chance += 0.005
 	main.starting_crit_mult *= 1.05
-	main.highlight_effect(main.crit_mult_label, Color(0.0, 1.0, 0.0, 1.0), Color(1.0, 1.0, 1.0, 1.0))
-	main.highlight_effect(main.crit_chance_label, Color(0.0, 1.0, 0.0, 1.0), Color(1.0, 1.0, 1.0, 1.0))
+	main.highlight_effect(main.crit_mult_label, Data.ORANGE, Data.WHITE)
+	main.highlight_effect(main.crit_chance_label, Data.ORANGE, Data.WHITE)
 
 func reset():
 	total_earn = 0

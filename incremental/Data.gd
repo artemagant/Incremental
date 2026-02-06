@@ -1,7 +1,13 @@
 extends Node
 
+const RED = Color(0xFF0000FF)
+const ORANGE = Color(0xFF8000FF)
+const GREEN = Color(0x00FF00FF)
+const WHITE = Color(0xFFFFFFFF)
+
 var game_data := {
 	"balance": 0,
+	"total_balance": 0,
 	
 	"+Earn_1": 0,
 	"+Earn_2": 0,
@@ -15,11 +21,7 @@ var game_data := {
 	
 	"%Crit_1": 0,
 	"%Crit_2": 0,
-	
-	"unlocked": unlocked
 }
-
-var unlocked := {}
 
 var duplicate_game_data := game_data.duplicate(true)
 
@@ -64,4 +66,5 @@ func load_data():
 
 func reset_data():
 	game_data = duplicate_game_data
+	duplicate_game_data = game_data.duplicate(true)
 	save_data()
